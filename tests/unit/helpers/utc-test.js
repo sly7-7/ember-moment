@@ -12,10 +12,10 @@ moduleForComponent('utc', {
   afterEach() {
     moment.utc = utc;
     self.moment.utc = utc;
-  }
+  },
 });
 
-test('returns the result of moment.utc', function(assert) {
+test('returns the result of moment.utc', function (assert) {
   assert.expect(1);
 
   const timeStr = '2001-10-31T13:24:56';
@@ -27,7 +27,7 @@ test('returns the result of moment.utc', function(assert) {
   assert.equal(this.$().text(), timeStr);
 });
 
-test('returns the result of self.moment.utc', function(assert) {
+test('returns the result of self.moment.utc', function (assert) {
   assert.expect(1);
 
   const timeStr = '2001-10-31T13:24:56';
@@ -39,7 +39,7 @@ test('returns the result of self.moment.utc', function(assert) {
   assert.equal(this.$().text(), timeStr);
 });
 
-test('utc of existing moment', function(assert) {
+test('utc of existing moment', function (assert) {
   assert.expect(2);
 
   const utcTimeStr = '2001-10-31T13:24:56 +00:00';

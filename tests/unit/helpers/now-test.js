@@ -12,10 +12,10 @@ moduleForComponent('now', {
   afterEach() {
     moment.now = now;
     self.moment.now = now;
-  }
+  },
 });
 
-test('returns the result of moment.now', function(assert) {
+test('returns the result of moment.now', function (assert) {
   assert.expect(1);
 
   const momentService = this.container.lookup('service:moment');
@@ -25,7 +25,7 @@ test('returns the result of moment.now', function(assert) {
   assert.equal(this.$().text(), '20111031');
 });
 
-test('returns the result of self.moment.now', function(assert) {
+test('returns the result of self.moment.now', function (assert) {
   assert.expect(1);
 
   const momentService = this.container.lookup('service:moment');

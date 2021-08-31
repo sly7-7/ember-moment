@@ -5,10 +5,10 @@ moduleForComponent('moment-duration', {
   integration: true,
   beforeEach() {
     this.container.lookup('service:moment').changeLocale('en');
-  }
+  },
 });
 
-test('one arg (ms)', function(assert) {
+test('one arg (ms)', function (assert) {
   assert.expect(1);
 
   this.set('date', 86400000);
@@ -16,7 +16,7 @@ test('one arg (ms)', function(assert) {
   assert.equal(this.$().text(), 'a day');
 });
 
-test('one arg (empty string)', function(assert) {
+test('one arg (empty string)', function (assert) {
   assert.expect(1);
 
   this.set('date', '');
@@ -24,7 +24,7 @@ test('one arg (empty string)', function(assert) {
   assert.equal(this.$().text(), 'a few seconds');
 });
 
-test('one arg (object)', function(assert) {
+test('one arg (object)', function (assert) {
   assert.expect(1);
 
   this.set('date', {
@@ -34,14 +34,14 @@ test('one arg (object)', function(assert) {
     days: 2,
     weeks: 2,
     months: 2,
-    years: 2
+    years: 2,
   });
 
   this.render(hbs`{{moment-duration date}}`);
   assert.equal(this.$().text(), '2 years');
 });
 
-test('one arg (string)', function(assert) {
+test('one arg (string)', function (assert) {
   assert.expect(1);
 
   this.set('date', '23:59:59');
@@ -49,12 +49,12 @@ test('one arg (string)', function(assert) {
   assert.equal(this.$().text(), 'a day');
 });
 
-test('two args (value, units) - minute', function(assert) {
+test('two args (value, units) - minute', function (assert) {
   assert.expect(1);
 
   this.setProperties({
     unit: 'minutes',
-    date: 1
+    date: 1,
   });
 
   this.render(hbs`{{moment-duration date unit}}`);
@@ -62,31 +62,31 @@ test('two args (value, units) - minute', function(assert) {
   assert.equal(this.$().text(), 'a minute');
 });
 
-test('two args (value, units) - day', function(assert) {
+test('two args (value, units) - day', function (assert) {
   assert.expect(1);
 
   this.setProperties({
     unit: 'day',
-    date: 1
+    date: 1,
   });
 
   this.render(hbs`{{moment-duration date unit}}`);
   assert.equal(this.$().text(), 'a day');
 });
 
-test('two args (value, units) - empty value', function(assert) {
+test('two args (value, units) - empty value', function (assert) {
   assert.expect(1);
 
   this.setProperties({
     unit: 'minutes',
-    date: null
+    date: null,
   });
 
   this.render(hbs`{{moment-duration date unit}}`);
   assert.equal(this.$().text(), 'a few seconds');
 });
 
-test('can inline a locale instead of using global locale', function(assert) {
+test('can inline a locale instead of using global locale', function (assert) {
   assert.expect(1);
 
   this.set('date', 86400000);

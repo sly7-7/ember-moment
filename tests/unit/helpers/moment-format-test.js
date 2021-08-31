@@ -10,10 +10,10 @@ moduleForComponent('moment-format', {
   integration: true,
   beforeEach() {
     this.container.lookup('service:moment').changeLocale('en');
-  }
+  },
 });
 
-test('one arg (date)', function(assert) {
+test('one arg (date)', function (assert) {
   assert.expect(1);
 
   this.set('date', date(date(0)));
@@ -21,7 +21,7 @@ test('one arg (date)', function(assert) {
   assert.equal(this.$().text(), 'Wednesday, December 31, 1969 7:00 PM');
 });
 
-test('updating default format recomputes moment-format', function(assert) {
+test('updating default format recomputes moment-format', function (assert) {
   assert.expect(2);
 
   this.set('date', date(date(0)));
@@ -39,36 +39,36 @@ test('updating default format recomputes moment-format', function(assert) {
   });
 });
 
-test('two args (date, inputFormat)', function(assert) {
+test('two args (date, inputFormat)', function (assert) {
   assert.expect(1);
 
   this.setProperties({
     format: 'MMMM D, YYYY',
-    date: date(Date.parse('2011-10-10T14:48:00-05:00'))
+    date: date(Date.parse('2011-10-10T14:48:00-05:00')),
   });
 
   this.render(hbs`{{moment-format date format}}`);
   assert.equal(this.$().text(), 'October 10, 2011');
 });
 
-test('three args (date, outputFormat, inputFormat)', function(assert) {
+test('three args (date, outputFormat, inputFormat)', function (assert) {
   assert.expect(1);
 
   this.setProperties({
     inputFormat: 'M/D/YY',
     outputFormat: 'MMMM D, YYYY',
-    date: '5/3/10'
+    date: '5/3/10',
   });
 
   this.render(hbs`{{moment-format date outputFormat inputFormat}}`);
   assert.equal(this.$().text(), 'May 3, 2010');
 });
 
-test('change date input and change is reflected by bound helper', function(assert) {
+test('change date input and change is reflected by bound helper', function (assert) {
   assert.expect(2);
 
   const context = EmberObject.create({
-    date: date(0)
+    date: date(0),
   });
 
   this.set('context', context);
@@ -77,14 +77,13 @@ test('change date input and change is reflected by bound helper', function(asser
   assert.equal(this.$().text(), 'Wednesday, December 31, 1969 7:00 PM');
 
   run(function () {
-    context.set('date', date(60*60*24));
+    context.set('date', date(60 * 60 * 24));
   });
 
   assert.equal(this.$().text(), 'Wednesday, December 31, 1969 7:01 PM');
-
 });
 
-test('can inline a locale instead of using global locale', function(assert) {
+test('can inline a locale instead of using global locale', function (assert) {
   assert.expect(1);
   this.set('date', date(date(0)));
 
@@ -92,7 +91,7 @@ test('can inline a locale instead of using global locale', function(assert) {
   assert.equal(this.$().text(), 'miércoles, 31 de diciembre de 1969 19:00');
 });
 
-test('can inline timeZone (New York)', function(assert) {
+test('can inline timeZone (New York)', function (assert) {
   assert.expect(1);
 
   this.set('date', 0);
@@ -100,15 +99,17 @@ test('can inline timeZone (New York)', function(assert) {
   assert.equal(this.$().text(), 'Wednesday, December 31, 1969 7:00 PM');
 });
 
-test('can inline timeZone (Los Angeles)', function(assert) {
+test('can inline timeZone (Los Angeles)', function (assert) {
   assert.expect(1);
 
   this.set('date', 0);
-  this.render(hbs`{{moment-format date 'LLLL' timeZone='America/Los_Angeles'}}`);
+  this.render(
+    hbs`{{moment-format date 'LLLL' timeZone='America/Los_Angeles'}}`
+  );
   assert.equal(this.$().text(), 'Wednesday, December 31, 1969 4:00 PM');
 });
 
-test('can be called with null when allow-empty is set to true', function(assert) {
+test('can be called with null when allow-empty is set to true', function (assert) {
   assert.expect(1);
 
   this.set('date', null);
@@ -116,12 +117,15 @@ test('can be called with null when allow-empty is set to true', function(assert)
   assert.equal(this.$().text(), '');
 });
 
-test('can be called using subexpression', function(assert) {
+test('can be called using subexpression', function (assert) {
   assert.expect(1);
 
-  this.registry.register('helper:get-format', helper(function() {
-    return 'L';
-  }));
+  this.registry.register(
+    'helper:get-format',
+    helper(function () {
+      return 'L';
+    })
+  );
 
   this.set('date', date(0));
   this.render(hbs`{{moment-format date (get-format 'global-format')}}`);

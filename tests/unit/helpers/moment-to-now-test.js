@@ -3,14 +3,14 @@ import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 
-moduleForComponent('moment-to-now',{
+moduleForComponent('moment-to-now', {
   integration: true,
   beforeEach() {
     this.container.lookup('service:moment').changeLocale('en');
-  }
+  },
 });
 
-test('one arg (date)', function(assert) {
+test('one arg (date)', function (assert) {
   assert.expect(1);
 
   const momentService = this.container.lookup('service:moment');
@@ -22,7 +22,7 @@ test('one arg (date)', function(assert) {
   assert.equal(this.$().text(), 'in 3 days');
 });
 
-test('one arg (date, hideAffix=boolean)', function(assert) {
+test('one arg (date, hideAffix=boolean)', function (assert) {
   assert.expect(2);
 
   const momentService = this.container.lookup('service:moment');
@@ -36,7 +36,7 @@ test('one arg (date, hideAffix=boolean)', function(assert) {
   assert.equal(this.$().text(), 'in 3 days');
 });
 
-test('two args (date, inputFormat)', function(assert) {
+test('two args (date, inputFormat)', function (assert) {
   assert.expect(1);
 
   const momentService = this.container.lookup('service:moment');
@@ -49,7 +49,7 @@ test('two args (date, inputFormat)', function(assert) {
   assert.equal(this.$().text(), 'in 3 days');
 });
 
-test('change date input and change is reflected by bound helper', function(assert) {
+test('change date input and change is reflected by bound helper', function (assert) {
   assert.expect(2);
 
   const momentService = this.container.lookup('service:moment');
@@ -68,7 +68,7 @@ test('change date input and change is reflected by bound helper', function(asser
   assert.equal(this.$().text(), 'in 2 hours');
 });
 
-test('can inline a locale instead of using global locale', function(assert) {
+test('can inline a locale instead of using global locale', function (assert) {
   assert.expect(1);
 
   const momentService = this.container.lookup('service:moment');
@@ -77,7 +77,7 @@ test('can inline a locale instead of using global locale', function(assert) {
   assert.equal(this.$().text(), 'en una hora');
 });
 
-test('can be called with null', function(assert) {
+test('can be called with null', function (assert) {
   assert.expect(1);
 
   this.set('date', null);
@@ -85,7 +85,7 @@ test('can be called with null', function(assert) {
   assert.equal(this.$().text(), '');
 });
 
-test('can be called with null using global config option', function(assert) {
+test('can be called with null using global config option', function (assert) {
   assert.expect(1);
 
   this.set('date', null);
@@ -93,7 +93,7 @@ test('can be called with null using global config option', function(assert) {
   assert.equal(this.$().text(), '');
 });
 
-test('unable to called with null overriding global config option', function(assert) {
+test('unable to called with null overriding global config option', function (assert) {
   assert.expect(1);
 
   this.set('date', null);

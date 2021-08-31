@@ -12,129 +12,134 @@ import date from '../../helpers/date';
 moduleFor('controller:test-subject', {
   setup() {
     moment.locale('en');
-  }
+  },
 });
 
 function createSubject(attrs) {
   const owner = getOwner(this);
 
-  owner.resolveRegistration('controller:test-subject').reopen(merge({
-    date: date(0),
-    shortDate: format('date', 'MM/DD')
-  }, attrs));
+  owner.resolveRegistration('controller:test-subject').reopen(
+    merge(
+      {
+        date: date(0),
+        shortDate: format('date', 'MM/DD'),
+      },
+      attrs
+    )
+  );
 
   return this.subject();
 }
 
-test('get value as dependent key, format as dependent key', function(assert) {
+test('get value as dependent key, format as dependent key', function (assert) {
   assert.expect(1);
 
   const subject = createSubject.call(this, {
     dateFormat: 'MM/DD',
-    shortDate: format('date', 'dateFormat')
+    shortDate: format('date', 'dateFormat'),
   });
 
   assert.equal(subject.get('shortDate'), '12/31');
 });
 
-test('can contain spaces in the format argument', function(assert) {
+test('can contain spaces in the format argument', function (assert) {
   assert.expect(1);
 
   const subject = createSubject.call(this, {
-    shortDate: format('date', 'MM DD')
+    shortDate: format('date', 'MM DD'),
   });
 
   assert.equal(subject.get('shortDate'), '12 31');
 });
 
-test('composition with moment computed: get value as dependent key, format as dependent key', function(assert) {
+test('composition with moment computed: get value as dependent key, format as dependent key', function (assert) {
   assert.expect(1);
 
   const subject = createSubject.call(this, {
     dateFormat: 'MM/DD',
-    shortDate: format(momentComputed('date'), 'dateFormat')
+    shortDate: format(momentComputed('date'), 'dateFormat'),
   });
 
   assert.equal(subject.get('shortDate'), '12/31');
 });
 
-test('get value as literal, format as literal', function(assert) {
+test('get value as literal, format as literal', function (assert) {
   assert.expect(1);
   const subject = createSubject.call(this, undefined);
   assert.equal(subject.get('shortDate'), '12/31');
 });
 
-test('get literal', function(assert) {
+test('get literal', function (assert) {
   assert.expect(1);
 
   const subject = createSubject.call(this, {
-    shortDate: format(date(0), 'MM/DD')
+    shortDate: format(date(0), 'MM/DD'),
   });
 
   assert.equal(subject.get('shortDate'), '12/31');
 });
 
-test('single argument supported', function(assert) {
+test('single argument supported', function (assert) {
   assert.expect(1);
 
   const timestamp = date(0);
 
   const subject = createSubject.call(this, {
-    shortDate: format(timestamp)
+    shortDate: format(timestamp),
   });
 
   assert.equal(subject.get('shortDate'), moment(timestamp).format());
 });
 
-test('Date - set', function(assert) {
+test('Date - set', function (assert) {
   assert.expect(1);
   const subject = createSubject.call(this, undefined);
   subject.set('date', date('2013-02-08T09:30:26'));
   assert.equal(subject.get('shortDate'), '02/08');
 });
 
-test('invalid date', function(assert) {
+test('invalid date', function (assert) {
   assert.expect(1);
   const subject = createSubject.call(this, { date: 'ZZZZZ' });
   assert.equal(subject.get('shortDate'), 'Invalid date');
 });
 
-test('is computed handled', function(assert) {
+test('is computed handled', function (assert) {
   assert.expect(2);
   const subject = createSubject.call(this, {
     _format: 'MM/DD',
     format: alias('_format'),
-    shortDate: format('date', 'format')
+    shortDate: format('date', 'format'),
   });
   assert.equal(subject.get('shortDate'), '12/31');
   subject.set('_format', 'MM');
   assert.equal(subject.get('shortDate'), '12');
 });
 
-test('composition with moment compouted: is computed handled', function(assert) {
+test('composition with moment compouted: is computed handled', function (assert) {
   assert.expect(2);
   const subject = createSubject.call(this, {
     _format: 'MM/DD',
     format: alias('_format'),
-    shortDate: format(momentComputed('date'), 'format')
+    shortDate: format(momentComputed('date'), 'format'),
   });
   assert.equal(subject.get('shortDate'), '12/31');
   subject.set('_format', 'MM');
   assert.equal(subject.get('shortDate'), '12');
 });
 
-test('outputFormat  option is respected', function(assert) {
+test('outputFormat  option is respected', function (assert) {
   assert.expect(2);
 
   this.register('config:environment', {
     moment: {
-      outputFormat: 'YYYY'
-    }
+      outputFormat: 'YYYY',
+    },
   });
 
   const subject = createSubject.call(this, {
     date: '2013-01-01',
-    shortDate: format('date')
+    shortDate: format('date'),
   });
 
   assert.equal(subject.get('shortDate'), '2013');
@@ -142,7 +147,7 @@ test('outputFormat  option is respected', function(assert) {
   assert.equal(subject.get('shortDate'), '2014');
 });
 
-test('Observers trigger on date change', function(assert) {
+test('Observers trigger on date change', function (assert) {
   assert.expect(2);
   let observeFired = false;
 
@@ -152,26 +157,26 @@ test('Observers trigger on date change', function(assert) {
     shortDate: format('date', 'format'),
     shortDateChanged: observer('shortDate', () => {
       observeFired = true;
-    })
+    }),
   });
 
   assert.equal(subject.get('shortDate'), '12/31');
   subject.set('_format', 'MM');
-  assert.equal(observeFired, true);
+  assert.true(observeFired);
 });
 
-test('Observers trigger on date change', function(assert) {
+test('Observers trigger on date change', function (assert) {
   assert.expect(3);
   let observeFired = false;
 
   const subject = createSubject.call(this, {
     shortDateChanged: observer('shortDate', () => {
       observeFired = true;
-    })
+    }),
   });
 
   assert.equal(subject.get('shortDate'), '12/31');
   subject.set('date', date('2013-02-08T09:30:26'));
   assert.equal(subject.get('shortDate'), '02/08');
-  assert.equal(observeFired, true);
+  assert.true(observeFired);
 });
